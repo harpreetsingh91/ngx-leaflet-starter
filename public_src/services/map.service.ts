@@ -19,6 +19,10 @@ export class MapService {
             }),
             CartoDB: L.tileLayer("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+            }),
+            //remove access token before committing
+            mapbox: L.tileLayer("https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaGFycHJlZXRzaW5naDkxIiwiYSI6ImNpbnJ0Z3MxdDEwbG10cWtqbzFkN3hjZnAifQ.ou36hzTx2my2TQRc9PjAFA#13", {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
             })
         };
     }
