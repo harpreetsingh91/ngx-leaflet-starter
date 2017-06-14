@@ -11,6 +11,7 @@ import Popup = L.Popup;
 import * as L from 'leaflet';
 import 'leaflet-area-select';
 import LatLng = L.LatLng;
+import * as Autolinker from 'autolinker';
 
 @Component({
     selector: "app",
@@ -82,7 +83,8 @@ export class AppComponent {
             location.latitude = mediaElement.LatLng[0];
             location.longitude = mediaElement.LatLng[1];
             let marker = this._createMarker(location);
-            marker.bindPopup(mediaElement.Text).openPopup();
+            let linkedMediaText: string = Autolinker.link(mediaElement.Text);
+            marker.bindPopup(linkedMediaText).openPopup();
             marker.addTo(map);
         }));
     }
