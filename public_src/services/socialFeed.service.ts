@@ -9,10 +9,11 @@ export class SocialFeed {
 
     private _twitterFeedURL = 'http://localhost:9000/twitterFeed';
 
-    public getSocialFeed(location: ILatLng): Observable<TwitterFeed> {
+    public getSocialFeed(location: ILatLng, radius:number): Observable<TwitterFeed> {
         let queryParams: URLSearchParams = new URLSearchParams();
         queryParams.set('lat', location.latitude.toString());
         queryParams.set('lng', location.longitude.toString());
+        queryParams.set('radius', radius.toString());
 
         let requestOptions = new RequestOptions();
         requestOptions.params = queryParams;

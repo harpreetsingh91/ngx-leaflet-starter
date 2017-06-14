@@ -8,6 +8,10 @@ import {BatMediaElement, SocialFeed} from "../../services/socialFeed.service";
 import Marker = L.Marker;
 import Popup = L.Popup;
 
+import * as L from 'leaflet';
+import 'leaflet-area-select';
+import LatLng = L.LatLng;
+
 @Component({
     selector: "app",
     template: require<any>("./app.component.html"),
@@ -27,10 +31,27 @@ export class AppComponent {
         let map = L.map("map", {
             zoomControl: false,
             //center: L.latLng(40.731253, -73.996139), commented out so map doesn't suddenly switch to another location
-            zoom: 12,
+            zoom: 14,
             minZoom: 4,
             maxZoom: 19,
             layers: [this.mapService.baseMaps.mapbox]
+        });
+
+        (map as any).selectArea.enable();
+
+        map.on('areaselected', (e: any) => {
+            console.log(e.bounds.toBBoxString()); // lon, lat, lon, lat
+            console.log(e.bounds);
+
+            //pass the center of the rectangle and distance to a corner to server.
+            //server uses this as center and radius to get tweets (Since twitter works with radius)
+            //todo: filter response from server and only consider tweets that fall inside rectangle
+            let center: LatLng = e.bounds.getCenter();
+            let topLeftVertex: LatLng = e.bounds.getNorthWest();
+            let radius: number = center.distanceTo(topLeftVertex)/1000;
+            console.log(center);
+            console.log(radius);
+            this._addMarkers(map, new Location(center.lat, center.lng), radius);
         });
 
         L.control.zoom({ position: "topright" }).addTo(map);
@@ -45,21 +66,18 @@ export class AppComponent {
                     currentLocation = location;
                     console.log([location.latitude, location.longitude]);
                     map.panTo([location.latitude, location.longitude]);
-                    this._addMarkers(map, currentLocation);
+
+                    "Don't add markers on initial map load"
+                    //this._addMarkers(map, currentLocation);
                 },
                 err => console.error(err)
             );
         this.toolbarComponent.Initialize();
-        map.on('moveend', () => {
-            let location = new Location();
-            location.latitude = map.getCenter().lat;
-            location.longitude = map.getCenter().lng;
-            this._addMarkers(map, location);
-        });
     }
-
-    private _addMarkers(map: any, location: Location): void {
-        this.socialFeed.getSocialFeed(location).subscribe((feed) => feed.Places.forEach((mediaElement: BatMediaElement) => {
+    //server accepts radius in Kilometers. Pass this function radius in KM
+    private _addMarkers(map: any, location: Location, radius: number = 2.0): void {
+        if (radius>2.0) radius = 2.0;
+        this.socialFeed.getSocialFeed(location, radius).subscribe((feed) => feed.Places.forEach((mediaElement: BatMediaElement) => {
             let location = new Location();
             location.latitude = mediaElement.LatLng[0];
             location.longitude = mediaElement.LatLng[1];
