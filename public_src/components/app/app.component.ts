@@ -12,21 +12,53 @@ import * as L from 'leaflet';
 import 'leaflet-area-select';
 import LatLng = L.LatLng;
 import * as Autolinker from 'autolinker';
+import {Map} from "leaflet";
 
 @Component({
     selector: "app",
     template: require<any>("./app.component.html"),
     styles: [
         require<any>("./app.component.less")
-    ],
+    ], 
     providers: [SocialFeed]
 })
 export class AppComponent {
+    get sentimentFilter(): string {
+        return this._sentimentFilter;
+    }
 
-    @ViewChild(ToolbarComponent) toolbarComponent: ToolbarComponent;
+    get keywordFilter(): string {
+        return this._keywordFilter;
+    }
+
+    get mediaElements(): Array<BatMediaElement> {
+        return this._mediaElements;
+    }
+
+    get markerClicked(): boolean {
+        return this._markerClicked;
+    }
+
+    get sentimentOptions(): Array<String> {
+        return this._sentimentOptions;
+    }
+
+    //@ViewChild(ToolbarComponent) toolbarComponent: ToolbarComponent;
 
     constructor(private mapService: MapService, private geocoder: GeocodingService, private socialFeed: SocialFeed) {
     }
+
+    private _markerClicked: boolean = false;
+
+    private _mediaElements: Array<BatMediaElement> = [];
+
+    private _sentimentOptions: Array<string> = ["Positive", "Neutral", "Negative"];
+
+    private _sentimentFilter: string = "";
+
+    private _keywordFilter: string = "";
+
+    private _allMarkers: Array<Marker> = [];
 
     ngOnInit() {
         let map = L.map("map", {
@@ -52,6 +84,12 @@ export class AppComponent {
             let radius: number = center.distanceTo(topLeftVertex)/1000;
             console.log(center);
             console.log(radius);
+
+            //remove markers and clear current markers array
+            this.removeOldMarkers(this._allMarkers, map);
+            this._allMarkers = [];
+            this._mediaElements = [];
+
             this._addMarkers(map, new Location(center.lat, center.lng), radius);
         });
 
@@ -68,12 +106,12 @@ export class AppComponent {
                     console.log([location.latitude, location.longitude]);
                     map.panTo([location.latitude, location.longitude]);
 
-                    "Don't add markers on initial map load"
+                    "Don't add mediaElements on initial map load"
                     //this._addMarkers(map, currentLocation);
                 },
                 err => console.error(err)
             );
-        this.toolbarComponent.Initialize();
+        //this.toolbarComponent.Initialize();
     }
     //server accepts radius in Kilometers. Pass this function radius in KM
     private _addMarkers(map: any, location: Location, radius: number = 2.0): void {
@@ -84,8 +122,15 @@ export class AppComponent {
             location.longitude = mediaElement.LatLng[1];
             let marker = this._createMarker(location);
             let linkedMediaText: string = Autolinker.link(mediaElement.Text);
+            mediaElement.Text = linkedMediaText;
+
+            //add markers to current markers array
+            this._allMarkers.push(marker);
+
             marker.bindPopup(linkedMediaText).openPopup();
+            marker.on('click', () => this._markerClicked = true);
             marker.addTo(map);
+            this._mediaElements.push(mediaElement);
         }));
     }
 
@@ -100,4 +145,23 @@ export class AppComponent {
     }
 
 
+    // private _filterMediaByKeyword(keyword: string, mediaElements: Array<BatMediaElement>): Array<BatMediaElement>{}
+    //
+
+    public filterMediaBySentimentAndKeyword(sentiment: string, keywordFilter: string, mediaElement: BatMediaElement): boolean{
+        return (mediaElement.Sentiment == sentiment || sentiment == "") && mediaElement.Text.toUpperCase().includes(keywordFilter.toUpperCase());
+    }
+
+    public clearFilters(): void {
+        this._keywordFilter = "";
+        this._sentimentFilter = "";
+    }
+
+    private removeOldMarkers(markers: Array<Marker>, map: Map): void {
+        markers.forEach(
+            (marker: Marker) => {
+                map.removeLayer(marker);
+            }
+        );
+    }
 }

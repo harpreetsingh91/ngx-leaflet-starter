@@ -8,8 +8,8 @@ import {Map} from "leaflet";
     selector: "navigator",
     template: require<any>("./navigator.component.html"),
     styles: [
-        require<any>("./navigator.component.less"),
-        require<any>("../../styles/main.less")
+        //require<any>("./navigator.component.less"),
+        //require<any>("../../styles/main.less")
     ],
     providers: []
 })
@@ -23,8 +23,8 @@ export class NavigatorComponent {
     }
 
     ngOnInit() {
-        this.mapService.disableMouseEvent("goto");
-        this.mapService.disableMouseEvent("place-input");
+        this.mapService.disableMouseEvent("b-goto");
+        this.mapService.disableMouseEvent("b-place-input");
         this.map = this.mapService.map;
     }
 

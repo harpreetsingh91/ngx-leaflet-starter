@@ -34,5 +34,9 @@ interface TwitterFeed {
 
 export interface BatMediaElement {
     LatLng: Array<number>,
-    Text: string
+    Text: string,
+    UserName: string,
+    UserProfilePictureURL: string,
+    UserLocation: string
+    Sentiment: string
 }
