@@ -1,4 +1,4 @@
-import {Component, ViewChild} from "@angular/core";
+import {Component, NgZone, ViewChild} from "@angular/core";
 import {NavigatorComponent} from "../navigator/navigator.component";
 import {ToolbarComponent} from "../toolbar/toolbar.component";
 import {MapService} from "../../services/map.service";
@@ -19,7 +19,7 @@ import {Map} from "leaflet";
     template: require<any>("./app.component.html"),
     styles: [
         require<any>("./app.component.less")
-    ], 
+    ],
     providers: [SocialFeed]
 })
 export class AppComponent {
@@ -45,7 +45,10 @@ export class AppComponent {
 
     //@ViewChild(ToolbarComponent) toolbarComponent: ToolbarComponent;
 
-    constructor(private mapService: MapService, private geocoder: GeocodingService, private socialFeed: SocialFeed) {
+    constructor(private mapService: MapService,
+                private geocoder: GeocodingService,
+                private socialFeed: SocialFeed,
+                private ngZone: NgZone) {
     }
 
     private _markerClicked: boolean = false;
@@ -90,7 +93,9 @@ export class AppComponent {
             this._allMarkers = [];
             this._mediaElements = [];
 
-            this._addMarkers(map, new Location(center.lat, center.lng), radius);
+            //this is needed because template subscribes to a different stream without ngZone
+            this.ngZone.run(
+                () => this._addMarkers(map, new Location(center.lat, center.lng), radius));
         });
 
         L.control.zoom({ position: "topright" }).addTo(map);
