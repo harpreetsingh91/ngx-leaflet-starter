@@ -12,6 +12,7 @@ import LatLng = L.LatLng;
 import * as Autolinker from 'autolinker';
 import {Map} from "leaflet";
 import {introJs} from "intro.js";
+import 'leaflet-spin';
 
 @Component({
     selector: "app",
@@ -64,7 +65,7 @@ export class AppComponent {
 
     ngOnInit() {
         let intro = introJs();
-    // Initialize steps
+        // Initialize steps
         intro.setOptions({
             steps: [
                 {
@@ -90,8 +91,9 @@ export class AppComponent {
             ]
         });
 
-// Start tutorial
+        // Start tutorial
         intro.start();
+
         let map = L.map("map", {
             zoomControl: false,
             zoom: 14,
@@ -99,10 +101,12 @@ export class AppComponent {
             maxZoom: 19,
             layers: [this.mapService.baseMaps.mapbox]
         });
-
         (map as any).selectArea.enable();
 
         map.on('areaselected', (e: any) => {
+            //start spinner
+            (map as any).spin(true);
+
             console.log(e.bounds.toBBoxString()); // lon, lat, lon, lat
             console.log(e.bounds);
 
@@ -164,6 +168,9 @@ export class AppComponent {
             marker.on('click', () => this._markerClicked = true);
             marker.addTo(map);
             this._mediaElements.push(mediaElement);
+
+            //remove spinner
+            (map as any).spin(false);
         }));
     }
 

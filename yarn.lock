@@ -1745,6 +1745,12 @@ leaflet-area-select@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/leaflet-area-select/-/leaflet-area-select-1.0.3.tgz#70ce33370ff160b49e84f8784750074e74cc0988"
 
+leaflet-spin@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/leaflet-spin/-/leaflet-spin-1.1.0.tgz#7298be3be9ab05b540913d84915d6347f49b1e4e"
+  dependencies:
+    spin.js "^2.3.1"
+
 leaflet.vectorgrid@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/leaflet.vectorgrid/-/leaflet.vectorgrid-1.2.0.tgz#a3b572eeceb2b4badbe51c9914c72ae7acc3ae0a"
@@ -3019,6 +3025,14 @@ spdx-expression-parse@~1.0.0:
 spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
+
+spin.js@^2.3.1:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/spin.js/-/spin.js-2.3.2.tgz#6caa56d520673450fd5cfbc6971e6d0772c37a1a"
+
+spin@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/spin/-/spin-0.0.1.tgz#246b756469c63b1f62f912f925b7eb2490e38cc6"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
