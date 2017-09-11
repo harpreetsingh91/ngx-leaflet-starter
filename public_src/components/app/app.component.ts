@@ -64,35 +64,8 @@ export class AppComponent {
     private _allMarkers: Array<Marker> = [];
 
     ngOnInit() {
-        let intro = introJs();
-        // Initialize steps
-        intro.setOptions({
-            steps: [
-                {
-                    element: '#search',
-                    intro: "Search for location here",
-                    position: 'right'
-                },
-                {
-                    element: '#map',
-                    intro: "Hold down control and select the area to view media feeds for",
-                    position: 'left'
-                },
-                {
-                    element: "#search-keyword",
-                    intro: 'To search for a keyword among media feeds enter keyword here.',
-                    position: 'right'
-                },
-                {
-                    element: '#sentiment',
-                    intro: " To filter feeds by sentiment use this dropdown",
-                    position: 'right'
-                }
-            ]
-        });
 
-        // Start tutorial
-        intro.start();
+        this._runIntroJs();
 
         let map = L.map("map", {
             zoomControl: false,
@@ -199,5 +172,37 @@ export class AppComponent {
                 map.removeLayer(marker);
             }
         );
+    }
+
+    private _runIntroJs(): void {
+    let intro = introJs();
+    // Initialize steps
+    intro.setOptions({
+                         steps: [
+                             {
+                                 element: '#search',
+                                 intro: "Enter location you want to search for here",
+                                 position: 'right'
+                             },
+                             {
+                                 element: '#map',
+                                 intro: "Hold down 'control' button on keyboard and using mouse select the area you want to view media feeds for <IMG SRC='https://media.giphy.com/media/3ov9jKxRXoCGNpt0B2/giphy.gif'>",
+                                 position: 'left'
+                             },
+                             {
+                                 element: "#search-keyword",
+                                 intro: 'To search for a keyword among media feeds enter keyword here.',
+                                 position: 'right'
+                             },
+                             {
+                                 element: '#sentiment',
+                                 intro: " To filter feeds by sentiment use this dropdown",
+                                 position: 'right'
+                             }
+                         ]
+                     });
+
+    // Start tutorial
+    intro.start();
     }
 }
