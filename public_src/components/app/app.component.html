@@ -1,6 +1,6 @@
 <div class="flex-container content" fxLayout="row">
     <div class="flex-item search-sidebar white-frame" fxFlex="30">
-        <md-card>
+        <md-card id="search">
             <md-card-title>
                 Search
             </md-card-title>
@@ -8,10 +8,10 @@
         </md-card>
         <md-card>
             <md-card-title>Filter by Keyword and Sentiment</md-card-title>
-            <md-input-container class="search-box">
+            <md-input-container class="search-box" id="search-keyword">
                 <input mdInput placeholder="Search Keyword" [(ngModel)] = "_keywordFilter">
             </md-input-container>
-            <md-select placeholder="Select Sentiment" [(ngModel)]="_sentimentFilter">
+            <md-select placeholder="Select Sentiment" [(ngModel)]="_sentimentFilter" id="sentiment">
                 <md-option *ngFor = "let sentiment of sentimentOptions" [value]="sentiment">
                     {{ sentiment }}
                 </md-option>

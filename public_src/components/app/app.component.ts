@@ -11,6 +11,7 @@ import 'leaflet-area-select';
 import LatLng = L.LatLng;
 import * as Autolinker from 'autolinker';
 import {Map} from "leaflet";
+import {introJs} from "intro.js";
 
 @Component({
     selector: "app",
@@ -62,6 +63,35 @@ export class AppComponent {
     private _allMarkers: Array<Marker> = [];
 
     ngOnInit() {
+        let intro = introJs();
+    // Initialize steps
+        intro.setOptions({
+            steps: [
+                {
+                    element: '#search',
+                    intro: "Search for location here",
+                    position: 'right'
+                },
+                {
+                    element: '#map',
+                    intro: "Hold down control and select the area to view media feeds for",
+                    position: 'left'
+                },
+                {
+                    element: "#search-keyword",
+                    intro: 'To search for a keyword among media feeds enter keyword here.',
+                    position: 'right'
+                },
+                {
+                    element: '#sentiment',
+                    intro: " To filter feeds by sentiment use this dropdown",
+                    position: 'right'
+                }
+            ]
+        });
+
+// Start tutorial
+        intro.start();
         let map = L.map("map", {
             zoomControl: false,
             zoom: 14,
