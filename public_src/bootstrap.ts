@@ -30,8 +30,6 @@ import 'hammerjs'
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MdToolbarModule} from '@angular/material';
 import {SideBarMediaContent} from "./components/sidebarMediaContent/sidebarMediaContentCard.component";
-import {MarkerService} from "./services/markerService.service";
-
 
 @NgModule({
     imports: [HttpModule, FormsModule, BrowserModule, BrowserAnimationsModule,

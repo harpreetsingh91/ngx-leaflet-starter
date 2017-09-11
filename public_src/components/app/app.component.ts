@@ -1,6 +1,4 @@
 import {ChangeDetectorRef, Component, NgZone, ViewChild} from "@angular/core";
-import {NavigatorComponent} from "../navigator/navigator.component";
-import {ToolbarComponent} from "../toolbar/toolbar.component";
 import {MapService} from "../../services/map.service";
 import {GeocodingService} from "../../services/geocodingService.service";
 import {Location} from "../../core/location.class";
@@ -13,7 +11,6 @@ import 'leaflet-area-select';
 import LatLng = L.LatLng;
 import * as Autolinker from 'autolinker';
 import {Map} from "leaflet";
-import {MarkersAndMediaElements, MarkerService} from "../../services/markerService.service";
 
 @Component({
     selector: "app",
@@ -49,9 +46,7 @@ export class AppComponent {
     constructor(private mapService: MapService,
                 private geocoder: GeocodingService,
                 private socialFeed: SocialFeed,
-                private markerService: MarkerService,
-                private ngZone: NgZone,
-                private ref: ChangeDetectorRef) {
+                private ngZone: NgZone) {
     }
 
     private _markerClicked: boolean = false;
@@ -99,7 +94,6 @@ export class AppComponent {
             this.ngZone.run(
                 () => {
                     this._addMarkers(map, new Location(center.lat, center.lng), radius);
-                    this.ref.markForCheck();
                 });
         });
 
