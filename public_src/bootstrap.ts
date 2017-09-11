@@ -22,7 +22,7 @@ import {NavigatorComponent} from "./components/navigator/navigator.component";
 import {ToolbarComponent} from "./components/toolbar/toolbar.component";
 
 import {MapService} from "./services/map.service";
-import {GeocodingService} from "./services/geocoding.service";
+import {GeocodingService} from "./services/geocodingService.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MdButtonModule, MdCardModule, MdInputModule, MdSelectModule, MdTooltipModule} from "@angular/material";
 
@@ -30,6 +30,7 @@ import 'hammerjs'
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MdToolbarModule} from '@angular/material';
 import {SideBarMediaContent} from "./components/sidebarMediaContent/sidebarMediaContentCard.component";
+import {MarkerService} from "./services/markerService.service";
 
 
 @NgModule({

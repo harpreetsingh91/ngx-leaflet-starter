@@ -1,8 +1,8 @@
-import {Component, NgZone, ViewChild} from "@angular/core";
+import {ChangeDetectorRef, Component, NgZone, ViewChild} from "@angular/core";
 import {NavigatorComponent} from "../navigator/navigator.component";
 import {ToolbarComponent} from "../toolbar/toolbar.component";
 import {MapService} from "../../services/map.service";
-import {GeocodingService} from "../../services/geocoding.service";
+import {GeocodingService} from "../../services/geocodingService.service";
 import {Location} from "../../core/location.class";
 import {BatMediaElement, SocialFeed} from "../../services/socialFeed.service";
 import Marker = L.Marker;
@@ -13,6 +13,7 @@ import 'leaflet-area-select';
 import LatLng = L.LatLng;
 import * as Autolinker from 'autolinker';
 import {Map} from "leaflet";
+import {MarkersAndMediaElements, MarkerService} from "../../services/markerService.service";
 
 @Component({
     selector: "app",
@@ -48,7 +49,9 @@ export class AppComponent {
     constructor(private mapService: MapService,
                 private geocoder: GeocodingService,
                 private socialFeed: SocialFeed,
-                private ngZone: NgZone) {
+                private markerService: MarkerService,
+                private ngZone: NgZone,
+                private ref: ChangeDetectorRef) {
     }
 
     private _markerClicked: boolean = false;
@@ -66,7 +69,6 @@ export class AppComponent {
     ngOnInit() {
         let map = L.map("map", {
             zoomControl: false,
-            //center: L.latLng(40.731253, -73.996139), commented out so map doesn't suddenly switch to another location
             zoom: 14,
             minZoom: 4,
             maxZoom: 19,
@@ -95,7 +97,10 @@ export class AppComponent {
 
             //this is needed because template subscribes to a different stream without ngZone
             this.ngZone.run(
-                () => this._addMarkers(map, new Location(center.lat, center.lng), radius));
+                () => {
+                    this._addMarkers(map, new Location(center.lat, center.lng), radius);
+                    this.ref.markForCheck();
+                });
         });
 
         L.control.zoom({ position: "topright" }).addTo(map);
@@ -116,7 +121,6 @@ export class AppComponent {
                 },
                 err => console.error(err)
             );
-        //this.toolbarComponent.Initialize();
     }
     //server accepts radius in Kilometers. Pass this function radius in KM
     private _addMarkers(map: any, location: Location, radius: number = 2.0): void {
@@ -148,10 +152,6 @@ export class AppComponent {
                 draggable: false
             });
     }
-
-
-    // private _filterMediaByKeyword(keyword: string, mediaElements: Array<BatMediaElement>): Array<BatMediaElement>{}
-    //
 
     public filterMediaBySentimentAndKeyword(sentiment: string, keywordFilter: string, mediaElement: BatMediaElement): boolean{
         return (mediaElement.Sentiment == sentiment || sentiment == "") && mediaElement.Text.toUpperCase().includes(keywordFilter.toUpperCase());
