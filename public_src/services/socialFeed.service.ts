@@ -7,7 +7,7 @@ import {ILatLng} from "../core/latLng.interface";
 export class SocialFeed {
     constructor (private http: Http) {}
 
-    private _twitterFeedURL = 'http://bat-server.herokuapp.com/twitterFeed';
+    private _twitterFeedURL = 'https://bat-server.herokuapp.com/twitterFeed';
 
     public getSocialFeed(location: ILatLng, radius:number): Observable<TwitterFeed> {
         let queryParams: URLSearchParams = new URLSearchParams();

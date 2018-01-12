@@ -42,9 +42,9 @@ export class GeocodingService {
     getCurrentLocation() {
         return this.http
             //.get("http://ipv4.myexternalip.com/json")// this was down so temporary fix
-            .get('http://api.ipify.org?format=json')
+            .get('https://api.ipify.org?format=json')
             .map(res => res.json().ip)
-            .flatMap(ip => this.http.get("http://freegeoip.net/json/" + ip))
+            .flatMap(ip => this.http.get("https://freegeoip.net/json/" + ip))
             .map((res: Response) => res.json())
             .map(result => {
                 let location = new Location();
