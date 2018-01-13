@@ -150,8 +150,8 @@ export class AppComponent {
     private _createMarker(location: Location): Marker {
         return L.marker([location.latitude, location.longitude], {
                 icon: L.icon({
-                    iconUrl: require<any>("../../../public/images/marker-icon.png"),
-                    shadowUrl: require<any>("../../../public/images/marker-shadow.png")
+                    iconUrl: require<any>("../../../docs/images/marker-icon.png"),
+                    shadowUrl: require<any>("../../../docs/images/marker-shadow.png")
                 }),
                 draggable: false
             });
