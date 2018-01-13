@@ -68,7 +68,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin([
             // {output}/file.txt
-            { from: './prod-dependencies', to: './prod-dependencies' }
+            { from: './public_src/prod-dependencies', to: './prod-dependencies' }
             ])
     ]
 };
