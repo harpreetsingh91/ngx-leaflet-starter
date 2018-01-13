@@ -7,12 +7,13 @@ import {ILatLng} from "../core/latLng.interface";
 export class SocialFeed {
     constructor (private http: Http) {}
 
-    private _twitterFeedURL = 'http://localhost:9000/twitterFeed';
+    private _twitterFeedURL = 'https://bat-server.herokuapp.com/twitterFeed';
 
-    public getSocialFeed(location: ILatLng): Observable<TwitterFeed> {
+    public getSocialFeed(location: ILatLng, radius:number): Observable<TwitterFeed> {
         let queryParams: URLSearchParams = new URLSearchParams();
         queryParams.set('lat', location.latitude.toString());
         queryParams.set('lng', location.longitude.toString());
+        queryParams.set('radius', radius.toString());
 
         let requestOptions = new RequestOptions();
         requestOptions.params = queryParams;
@@ -33,5 +34,9 @@ interface TwitterFeed {
 
 export interface BatMediaElement {
     LatLng: Array<number>,
-    Text: string
+    Text: string,
+    UserName: string,
+    UserProfilePictureURL: string,
+    UserLocation: string
+    Sentiment: string
 }

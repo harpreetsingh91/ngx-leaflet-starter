@@ -22,15 +22,30 @@ import {NavigatorComponent} from "./components/navigator/navigator.component";
 import {ToolbarComponent} from "./components/toolbar/toolbar.component";
 
 import {MapService} from "./services/map.service";
-import {GeocodingService} from "./services/geocoding.service";
+import {GeocodingService} from "./services/geocodingService.service";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MdButtonModule, MdCardModule, MdInputModule, MdSelectModule, MdTooltipModule} from "@angular/material";
+
+import 'hammerjs'
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MdToolbarModule} from '@angular/material';
+import {SideBarMediaContent} from "./components/sidebarMediaContent/sidebarMediaContentCard.component";
 
 @NgModule({
-    imports: [HttpModule, FormsModule, BrowserModule],
+    imports: [HttpModule, FormsModule, BrowserModule, BrowserAnimationsModule,
+        FlexLayoutModule,
+        MdInputModule,
+        MdCardModule,
+        MdToolbarModule,
+        MdSelectModule,
+        MdButtonModule,
+        MdTooltipModule],
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
         NavigatorComponent,
-        ToolbarComponent
+        ToolbarComponent,
+        SideBarMediaContent
     ],
     providers: [
         MapService,

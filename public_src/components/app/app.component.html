@@ -1,15 +1,34 @@
-<nav class="navbar nav-default navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#" scroll-to="welcome" offset="50"><span>The Bat</span></a>
+<div class="flex-container content" fxLayout="row">
+    <div class="flex-item search-sidebar white-frame" fxFlex="30">
+        <md-card id="search">
+            <md-card-title>
+                Search
+            </md-card-title>
+            <navigator></navigator>
+        </md-card>
+        <md-card>
+            <md-card-title>Filter by Keyword and Sentiment</md-card-title>
+            <md-input-container class="search-box" id="search-keyword">
+                <input mdInput placeholder="Search Keyword" [(ngModel)] = "_keywordFilter">
+            </md-input-container>
+            <md-select placeholder="Select Sentiment" [(ngModel)]="_sentimentFilter" id="sentiment">
+                <md-option *ngFor = "let sentiment of sentimentOptions" [value]="sentiment">
+                    {{ sentiment }}
+                </md-option>
+            </md-select>
+            <button md-button class="search-button" md-tooltip="Search for keyword">
+                <i class="fa fa-arrow-right"></i>
+            </button> <!-- button to search results -->
+            <button md-button class="search-button" md-tooltip="Clear filters"> <!-- button to clear results -->
+                <i class="fa fa-remove" (click) = "clearFilters()"></i>
+            </button>
+        </md-card>
+        <div *ngFor="let mediaElement of mediaElements">
+            <sidebar-media-content-card [mediaElement] = "mediaElement" *ngIf="filterMediaBySentimentAndKeyword(_sentimentFilter, _keywordFilter, mediaElement)">
+            </sidebar-media-content-card>
+        </div>
     </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-left">
-            <li><a href="https://github.com/haoliangyu/ngx-leaflet-starter" target="_blank">Add support us link</a></li>
-        </ul>
+    <div id="map" fxFlex>
     </div>
-</nav>
-
-<div id="map">
-    <navigator></navigator>
-    <toolbar></toolbar>
 </div>
+

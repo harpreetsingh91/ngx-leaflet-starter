@@ -1,6 +1,6 @@
-<input id="place-input" class="on-map" type="text" placeholder="Enter a place to go..."
- [(ngModel)]="address" (keyup.enter)="goto()">
-
- <button id="goto" class="btn btn-primary on-map" href="#" title="Goto Place" (click)="goto()">
-     <i class="fa fa-arrow-right fa">
- </i></button>
+<md-input-container class="search-box">
+<input id="b-place-input" mdInput placeholder="Enter a place to go..." [(ngModel)]="address" (keyup.enter)="goto()">
+</md-input-container>
+<button id ="b-goto" md-button class="search-button" md-tooltip="Go to this location" (click)="goto()">
+    <i class="fa fa-arrow-right"></i>
+</button>
