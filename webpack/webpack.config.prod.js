@@ -7,9 +7,11 @@ const OptimizeJsPlugin = require("optimize-js-plugin");
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 const srcDir = 'public_src';
-const outputDir = '../public';
+const outputDir = '../docs'; //named docs for publishing using github pages
 
 module.exports = {
     devtool: "source-map",
@@ -63,6 +65,10 @@ module.exports = {
             cssProcessor: require('cssnano'),
             cssProcessorOptions: { discardComments: { removeAll: true } },
             canPrint: true
-        })
+        }),
+        new CopyWebpackPlugin([
+            // {output}/file.txt
+            { from: './prod-dependencies', to: './prod-dependencies' }
+            ])
     ]
 };
